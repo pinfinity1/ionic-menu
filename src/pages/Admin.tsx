@@ -1,47 +1,46 @@
 import React from "react";
-import "./Admin.css"
 import {
-    IonButtons,
     IonContent,
     IonHeader,
+    IonIcon,
     IonItem,
     IonLabel,
     IonList,
-    IonMenuButton,
+    IonListHeader,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    isPlatform
 } from "@ionic/react";
+import {chevronForwardOutline} from "ionicons/icons";
 
 const Admin: React.FC = () => {
-
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonMenuButton/>
-                    </IonButtons>
-                    <IonTitle>Menu Admin</IonTitle>
+                    <IonTitle>Menu Administer</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Admin</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-
-                <IonList inset={true}>
-                    <IonItem className="list__items" routerLink={"category"} button={true}
-                             routerDirection="none">
-                        <IonLabel>Category</IonLabel>
+            <IonContent>
+                <IonList className="ion-margin-top ion-padding">
+                    <IonListHeader className={"ion-padding-bottom"}>
+                        <IonLabel>Fast Food</IonLabel>
+                    </IonListHeader>
+                    <IonItem button routerLink={"category"} routerDirection="none">
+                        <IonLabel className={"ion-padding-start"}>Category</IonLabel>
+                        {isPlatform('android') || isPlatform("desktop") ?
+                            <IonIcon slot="end" icon={chevronForwardOutline}/> : ""
+                        }
                     </IonItem>
-                    <IonItem className="list__items" routerLink={"product"} button={true}
-                             routerDirection="none">
-                        <IonLabel>Products</IonLabel>
+
+                    <IonItem button routerLink={"products"} routerDirection="none">
+                        <IonLabel className={"ion-padding-start"}>Products</IonLabel>
+                        {isPlatform('android') || isPlatform("desktop") ?
+                            <IonIcon slot="end" icon={chevronForwardOutline}/> : ""
+                        }
                     </IonItem>
                 </IonList>
             </IonContent>

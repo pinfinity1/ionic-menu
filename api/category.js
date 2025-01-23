@@ -1,15 +1,19 @@
-import client from '../lib/axios';
+import axios from 'axios';
 
 
-const GetCategory = async (eager = 'false') => {
+const client = axios.create({
+  baseURL: 'https://greenfastfood.cocoadownload.com/api/v1/',
+});
+
+const GetCategory = async (eager = false) => {
   const {data} = await client.get(`category?eager=${eager}`);
   return data;
 };
 
-const GetCategoryById = async (id, eager = 'false') => {
-  const {data} = await client.get(`category/${id}?eager=${eager}`);
-  return data;
-};
+// const GetCategoryById = async (id, eager = 'false') => {
+//   const {data} = await client.get(`category/${id}?eager=${eager}`);
+//   return data;
+// };
 
 const PostCategory = async (payload) => {
   const {data} = await client.post('category', payload);
@@ -28,7 +32,6 @@ const DeleteCategoryById = async (id) => {
 
 export {
   GetCategory,
-  GetCategoryById,
   PostCategory,
   UpdateCategory,
   DeleteCategoryById,

@@ -1,4 +1,9 @@
-const {default: client} = require('@/lib/axios');
+import axios from 'axios';
+
+
+const client = axios.create({
+  baseURL: 'https://greenfastfood.cocoadownload.com/api/v1/',
+});
 
 const PostProduct = async (payload) => {
   const {data} = await client.post('product', payload);
