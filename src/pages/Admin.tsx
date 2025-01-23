@@ -13,6 +13,7 @@ import {
     isPlatform
 } from "@ionic/react";
 import {chevronForwardOutline} from "ionicons/icons";
+import "./Admin.css"
 
 const Admin: React.FC = () => {
 
@@ -25,12 +26,14 @@ const Admin: React.FC = () => {
             </IonHeader>
 
             <IonContent>
-                <IonList className="ion-margin-top ion-padding">
+                <IonList className="admin-list ion-padding">
                     <IonListHeader className={"ion-padding-bottom"}>
                         <IonLabel>Fast Food</IonLabel>
                     </IonListHeader>
-                    <IonItem button routerLink={"category"} routerDirection="none">
-                        <IonLabel className={"ion-padding-start"}>Category</IonLabel>
+                    <IonItem button className={"admin-list__item"} routerLink={"category"} routerDirection="none">
+                        <IonLabel className={"ion-padding-start"}>
+                            Category
+                        </IonLabel>
                         {isPlatform('android') || isPlatform("desktop") ?
                             <IonIcon slot="end" icon={chevronForwardOutline}/> : ""
                         }

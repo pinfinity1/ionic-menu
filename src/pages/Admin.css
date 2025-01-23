@@ -1,0 +1,10 @@
+.admin-list {
+    margin-top: 40px;
+}
+
+.admin-list__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
