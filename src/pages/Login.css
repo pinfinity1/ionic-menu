@@ -26,15 +26,6 @@
     margin-inline: 0;
 }
 
-ion-grid {
-    --ion-grid-width: 100%;
-    --ion-grid-width-xs: 100%;
-    --ion-grid-width-sm: 80%;
-    --ion-grid-width-md: 50%;
-    --ion-grid-width-lg: 480px;
-    --ion-grid-width-xl: 570px;
-}
-
 
 ion-item {
     --background: transparent;

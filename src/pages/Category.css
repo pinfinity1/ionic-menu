@@ -1,5 +1,5 @@
 ion-card {
-    margin: 16px;
+    margin: 0;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -17,10 +17,22 @@ ion-card-title {
     font-size: 1.1rem;
 }
 
-ion-button {
-    margin-top: 16px;
-}
-
 .cat-card {
     margin-top: 40px;
 }
+
+.category-list {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-list__header {
+    margin-bottom: 24px;
+}
+
+.edit-button {
+    padding-right: 12px;
+}
+
