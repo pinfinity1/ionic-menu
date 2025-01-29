@@ -35,7 +35,6 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import Category from "./pages/Category";
 import Products from "./pages/Products";
-import EditCategory from "./pages/EditCategory";
 
 
 setupIonicReact();
@@ -55,14 +54,8 @@ const App: React.FC = () => {
                         <Route exact path="/category">
                             <Category/>
                         </Route>
-                        <Route exact path="/edit-category">
-                            <EditCategory/>
-                        </Route>
                         <Route exact path="/products">
                             <Products/>
-                        </Route>
-                        <Route exact path="/products/:id">
-                            {/*<EditProduct/>*/}
                         </Route>
                     </IonRouterOutlet>
                 </IonSplitPane>

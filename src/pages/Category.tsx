@@ -8,7 +8,9 @@ import {
     IonCardContent,
     IonCardHeader,
     IonCardTitle,
+    IonCol,
     IonContent,
+    IonGrid,
     IonHeader,
     IonIcon,
     IonInput,
@@ -19,18 +21,27 @@ import {
     IonPage,
     IonReorder,
     IonReorderGroup,
+    IonRow,
     IonTitle,
     IonToggle,
     IonToolbar
 } from "@ionic/react";
 import {addOutline, createOutline, informationCircleOutline} from "ionicons/icons";
-import {useHistory} from "react-router";
+import EditCategoryModal from "./EditCategoryModal";
 
 
 const Category: React.FC = () => {
     const [isDisabled, setIsDisabled] = useState(true);
-    const [items, setItems] = useState(["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]);
-    const history = useHistory();
+    const [items, setItems] = useState([
+        {id: "1", name: "Item 1"},
+        {id: "2", name: "Item 2"},
+        {id: "3", name: "Item 3"},
+        {id: "4", name: "Item 4"},
+        {id: "5", name: "Item 5"},
+    ]);
+    const [selectedCategory, setSelectedCategory] = useState<{ id: string; name: string } | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const toggleReorder = () => {
         setIsDisabled((prev) => !prev);
@@ -43,10 +54,23 @@ const Category: React.FC = () => {
         console.log(items)
     };
 
-    const goToEditPage = (categoryName: string) => {
-        history.push("/edit-category", {categoryName});
+    const openEditModal = (category: { id: string; name: string }) => {
+        setSelectedCategory(category);
+        setIsModalOpen(true);
     };
 
+
+    const closeEditModal = () => {
+        setIsModalOpen(false);
+        setSelectedCategory(null);
+    };
+
+
+    const handleSave = (id: string, newName: string) => {
+        setItems((prevItems) =>
+            prevItems.map((item) => (item.id === id ? {...item, name: newName} : item))
+        );
+    };
 
     return (
         <IonPage>
@@ -61,55 +85,69 @@ const Category: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent fullscreen className={"ion-padding"}>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Category</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
+            <IonContent className={""}>
+                <IonGrid className="cat-container" fixed>
+                    <IonRow>
+                        <IonCol size="12">
+                            <IonHeader collapse="condense">
+                                <IonToolbar>
+                                    <IonTitle size="large">Category</IonTitle>
+                                </IonToolbar>
+                            </IonHeader>
 
-                <IonCard className="cat-card">
-                    <IonCardHeader>
-                        <IonCardTitle>
-                            <IonIcon icon={informationCircleOutline}/>
-                            Add Category
-                        </IonCardTitle>
-                    </IonCardHeader>
+                            <IonCard className="cat-card">
+                                <IonCardHeader>
+                                    <IonCardTitle>
+                                        <IonIcon icon={informationCircleOutline}/>
+                                        Add Category
+                                    </IonCardTitle>
+                                </IonCardHeader>
 
-                    <IonCardContent>
-                        <IonItem className="ion-margin-top">
-                            <IonInput label="New Category" labelPlacement="stacked"
-                                      placeholder=" ">
+                                <IonCardContent>
+                                    <IonItem className="ion-margin-top">
+                                        <IonInput label="New Category" labelPlacement="stacked"
+                                                  placeholder=" ">
 
-                            </IonInput>
-                        </IonItem>
+                                        </IonInput>
+                                    </IonItem>
 
-                        <IonButton expand="block">
-                            Add
-                            <IonIcon icon={addOutline} slot="end"/>
-                        </IonButton>
-                    </IonCardContent>
-                </IonCard>
+                                    <IonButton expand="block">
+                                        Add
+                                        <IonIcon icon={addOutline} slot="end"/>
+                                    </IonButton>
+                                </IonCardContent>
+                            </IonCard>
 
 
-                <IonList className={"category-list"}>
-                    <IonListHeader className={"category-list__header"}>
-                        <IonLabel content={""}>Categories</IonLabel>
-                        <IonToggle checked={!isDisabled} onIonChange={toggleReorder}/>
-                    </IonListHeader>
-                    <IonReorderGroup disabled={isDisabled} onIonItemReorder={handleReorder}>
-                        {items.map((item, index) => (
-                            <IonItem className={"category-list__item custom-item"} key={item}>
-                                <IonLabel>{item}</IonLabel>
-                                <IonButton className={"edit-button"} onClick={() => goToEditPage(item)}>
-                                    <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
-                                </IonButton>
-                                <IonReorder slot="end"/>
-                            </IonItem>
-                        ))}
-                    </IonReorderGroup>
-                </IonList>
+                            <IonList className={"category-list"}>
+                                <IonListHeader className={"category-list__header"}>
+                                    <IonLabel content={""}>Categories</IonLabel>
+                                    <IonToggle checked={!isDisabled} onIonChange={toggleReorder}/>
+                                </IonListHeader>
+                                <IonReorderGroup disabled={isDisabled} onIonItemReorder={handleReorder}>
+                                    {items.map((item, index) => (
+                                        <IonItem className={"category-list__item custom-item"} key={item.id}>
+                                            <IonLabel>{item.name}</IonLabel>
+                                            <IonButton onClick={() => openEditModal(item)}>
+                                                <IonIcon slot="icon-only" icon={createOutline}></IonIcon>
+                                            </IonButton>
+                                            <IonReorder slot="end"/>
+                                        </IonItem>
+                                    ))}
+                                </IonReorderGroup>
+                            </IonList>
 
+                            {selectedCategory && (
+                                <EditCategoryModal
+                                    isOpen={isModalOpen}
+                                    onClose={closeEditModal}
+                                    category={selectedCategory}
+                                    onSave={handleSave}
+                                />
+                            )}
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
             </IonContent>
         </IonPage>
     )

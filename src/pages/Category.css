@@ -1,3 +1,7 @@
+.cat-container {
+    max-width: 400px;
+}
+
 ion-card {
     margin: 0;
     border-radius: 12px;
@@ -32,7 +36,4 @@ ion-card-title {
     margin-bottom: 24px;
 }
 
-.edit-button {
-    padding-right: 12px;
-}
 

@@ -82,21 +82,6 @@ const Login: React.FC = () => {
                                     Login
                                 </IonButton>
                             </div>
-                            {/*<IonItem className="ion-margin-bottom">*/}
-                            {/*    <IonInput label="Email"*/}
-                            {/*              labelPlacement="floating"*/}
-                            {/*              placeholder="Enter Your Email"*/}
-                            {/*    ></IonInput>*/}
-                            {/*</IonItem>*/}
-                            {/*<IonItem className="ion-margin-bottom">*/}
-                            {/*    <IonInput*/}
-                            {/*        label="Password"*/}
-                            {/*        labelPlacement="floating"*/}
-                            {/*        type="password"*/}
-                            {/*        placeholder="Enter Your Password"*/}
-                            {/*    ></IonInput>*/}
-                            {/*</IonItem>*/}
-                            {/*<IonButton expand="block">Login</IonButton>*/}
                         </IonCol>
                     </IonRow>
                 </IonGrid>
