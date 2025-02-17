@@ -1,6 +1,7 @@
+import React, {type ReactNode} from "react";
 import {IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
-import {Route} from 'react-router-dom';
+import {Redirect, Route, RouteProps, Switch} from 'react-router-dom';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,33 +31,68 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import React from "react";
+import useAccessToken from "./hooks/useAccessToken";
+import {useStorageContext} from "./contexts/StorageContext";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
-import Category from "./pages/Category";
 import Products from "./pages/Products";
+import Category from "./pages/Category";
 
 
 setupIonicReact();
 
+
+interface ProtectedRouteProps extends RouteProps {
+    children: ReactNode
+}
+
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({children, ...rest}) => {
+    const {accessToken} = useAccessToken();
+    
+    return (
+        <Route {...rest} render={({location}) =>
+            accessToken ? (
+                children
+            ) : (
+                <Redirect to={{pathname: "/login", state: {from: location}}}/>
+            )
+        }
+        />
+    );
+};
+
+
 const App: React.FC = () => {
+    const {accessToken, loading} = useAccessToken();
+    const {isStorageInitialized} = useStorageContext();
+    
+    
+    if(loading || !isStorageInitialized) {
+        return <div>Loading...</div>;
+    }
+    
+    
     return (
         <IonApp>
             <IonReactRouter>
                 <IonSplitPane contentId="main">
                     <IonRouterOutlet id="main">
-                        <Route exact path="/">
-                            <Admin/>
-                        </Route>
-                        <Route exact path="/login">
-                            <Login/>
-                        </Route>
-                        <Route exact path="/category">
-                            <Category/>
-                        </Route>
-                        <Route exact path="/products">
-                            <Products/>
-                        </Route>
+                        <Switch>
+                            <Route exact path="/login" render={() => (accessToken ? <Redirect to="/"/> : <Login/>)}/>
+                            <ProtectedRoute exact path="/">
+                                <Admin/>
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path="/category">
+                                <Category/>
+                            </ProtectedRoute>
+                            <ProtectedRoute exact path="/products">
+                                <Products/>
+                            </ProtectedRoute>
+                            <Route path="*">
+                                <Redirect to="/"/>
+                            </Route>
+                        </Switch>
                     </IonRouterOutlet>
                 </IonSplitPane>
             </IonReactRouter>
