@@ -27,7 +27,7 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {addOutline, createOutline, informationCircleOutline} from "ionicons/icons";
-import EditCategoryModal from "./EditCategoryModal";
+import EditCategoryModal from "../components/EditCategoryModal";
 
 
 const Category: React.FC = () => {
@@ -41,37 +41,37 @@ const Category: React.FC = () => {
     ]);
     const [selectedCategory, setSelectedCategory] = useState<{ id: string; name: string } | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
+    
+    
     const toggleReorder = () => {
         setIsDisabled((prev) => !prev);
     };
-
-
+    
+    
     const handleReorder = (event: CustomEvent) => {
         const reorderedItems = event.detail.complete(items);
         setItems(reorderedItems);
         console.log(items)
     };
-
+    
     const openEditModal = (category: { id: string; name: string }) => {
         setSelectedCategory(category);
         setIsModalOpen(true);
     };
-
-
+    
+    
     const closeEditModal = () => {
         setIsModalOpen(false);
         setSelectedCategory(null);
     };
-
-
+    
+    
     const handleSave = (id: string, newName: string) => {
         setItems((prevItems) =>
             prevItems.map((item) => (item.id === id ? {...item, name: newName} : item))
         );
     };
-
+    
     return (
         <IonPage>
             <IonHeader>
@@ -84,7 +84,7 @@ const Category: React.FC = () => {
                     </IonTitle>
                 </IonToolbar>
             </IonHeader>
-
+            
             <IonContent className={""}>
                 <IonGrid className="cat-container" fixed>
                     <IonRow>
@@ -94,7 +94,7 @@ const Category: React.FC = () => {
                                     <IonTitle size="large">Category</IonTitle>
                                 </IonToolbar>
                             </IonHeader>
-
+                            
                             <IonCard className="cat-card">
                                 <IonCardHeader>
                                     <IonCardTitle>
@@ -102,27 +102,27 @@ const Category: React.FC = () => {
                                         Add Category
                                     </IonCardTitle>
                                 </IonCardHeader>
-
+                                
                                 <IonCardContent>
                                     <IonItem className="ion-margin-top">
                                         <IonInput label="New Category" labelPlacement="stacked"
                                                   placeholder=" ">
-
+                                        
                                         </IonInput>
                                     </IonItem>
-
+                                    
                                     <IonButton expand="block">
                                         Add
                                         <IonIcon icon={addOutline} slot="end"/>
                                     </IonButton>
                                 </IonCardContent>
                             </IonCard>
-
-
+                            
+                            
                             <IonList className={"category-list"}>
                                 <IonListHeader className={"category-list__header"}>
                                     <IonLabel content={""}>Categories</IonLabel>
-                                    <IonToggle checked={!isDisabled} onIonChange={toggleReorder}/>
+                                    <IonToggle checked={ !isDisabled} onIonChange={toggleReorder}/>
                                 </IonListHeader>
                                 <IonReorderGroup disabled={isDisabled} onIonItemReorder={handleReorder}>
                                     {items.map((item, index) => (
@@ -136,7 +136,7 @@ const Category: React.FC = () => {
                                     ))}
                                 </IonReorderGroup>
                             </IonList>
-
+                            
                             {selectedCategory && (
                                 <EditCategoryModal
                                     isOpen={isModalOpen}

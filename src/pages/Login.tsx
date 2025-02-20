@@ -43,7 +43,7 @@ const Login: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             
-            <IonContent className="ion-padding log-cont">
+            <IonContent className="ion-padding">
                 <div className={"login-logo"}>
                     <IonIcon
                         className={"login-logo__icon"}
