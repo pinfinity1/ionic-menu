@@ -1,37 +1,34 @@
-import axios from 'axios';
-
-
-const client = axios.create({
-  baseURL: 'https://greenfastfood.cocoadownload.com/api/v1/',
-});
+import api from "../config/api";
 
 const PostProduct = async (payload) => {
-  const {data} = await client.post('product', payload);
+  const { data } = await api.post("product", payload);
   return data;
 };
 
 const UpdateProduct = async (id, payload) => {
-  const {data} = await client.put(`product/${id}`, payload);
+  const { data } = await api.put(`product/${id}`, payload);
   return data;
 };
 
 const DeleteProductById = async (id) => {
-  const {data} = await client.delete(`product/${id}`);
+  const { data } = await api.delete(`product/${id}`);
   return data;
 };
 
 const PostProductImage = async (id, payload) => {
-  const {data} = await client.post(`product/images/${id}`, payload);
+  const { data } = await api.post(`product/images/${id}`, payload);
   return data;
 };
 
 const GetProductImage = async (id) => {
-  const {data} = await client.get(`product/images/${id}`);
+  const { data } = await api.get(`product/images/${id}`, {
+    responseType: "blob",
+  });
   return data;
 };
 
 const DeleteProductImageById = async (id) => {
-  const {data} = await client.delete(`product/images/${id}`);
+  const { data } = await api.delete(`product/images/${id}`);
   return data;
 };
 
