@@ -55,12 +55,11 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
         description: product.description,
         price: product.price,
         categoryId: product.categoryId,
+        image: product.image,
       });
 
       if (product.image) {
-        setImagePreviewUrl(
-          `${api.defaults.baseURL}product/images/${product.id}`
-        );
+        setImagePreviewUrl(`${api.defaults.baseURL}${product.image.url}`);
       } else {
         setImagePreviewUrl(null);
       }

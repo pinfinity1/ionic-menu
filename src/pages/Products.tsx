@@ -41,6 +41,7 @@ import {
   DeleteProductById,
   PostProduct,
   PostProductImage,
+  DeleteProductImageById,
 } from "../api/product";
 import EditProductModal from "../components/EditProductModal";
 import api from "../config/api";
@@ -173,7 +174,8 @@ const Products: React.FC = () => {
   const handleSave = async (
     id: string,
     data: Partial<ProductItem>,
-    newImage: File | null
+    newImage: File | null,
+    shouldDeleteImage: boolean
   ) => {
     try {
       await UpdateProduct(id, data);
@@ -182,8 +184,13 @@ const Products: React.FC = () => {
         const formData = new FormData();
         formData.append("image", newImage);
         await PostProductImage(id, formData);
-      } else if (selectedProduct?.image && !data.image) {
-        // ...
+      } else if (shouldDeleteImage) {
+        // اگر عکسی برای آپلود انتخاب نشده بود و کاربر درخواست حذف عکس فعلی را داده بود، آن را حذف کن
+        try {
+          await DeleteProductImageById(id);
+        } catch (error) {
+          console.error("Failed to delete product image:", error);
+        }
       }
 
       fetchAllData();
