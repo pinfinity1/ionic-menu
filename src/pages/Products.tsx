@@ -17,7 +17,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonPage,
   IonRow,
   IonSelect,
@@ -42,37 +41,20 @@ import {
   DeleteProductById,
   PostProduct,
   PostProductImage,
-  DeleteProductImageById,
 } from "../api/product";
 import EditProductModal from "../components/EditProductModal";
 import api from "../config/api";
-
-interface ProductItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  categoryId: string;
-  image?: { url: string };
-}
-
-interface CategoryItem {
-  id: string;
-  name: string;
-  products: ProductItem[];
-}
+import { ProductItem, Category } from "../types";
 
 const Products: React.FC = () => {
-  const [categoriesForForm, setCategoriesForForm] = useState<CategoryItem[]>(
-    []
-  );
+  const [categoriesForForm, setCategoriesForForm] = useState<Category[]>([]);
   const [categoryId, setCategoryId] = useState<string>("");
   const [productName, setProductName] = useState<string>("");
   const [productContent, setProductContent] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number | undefined>();
   const [productImageFile, setProductImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-  const [allData, setAllData] = useState<CategoryItem[]>([]);
+  const [allData, setAllData] = useState<Category[]>([]);
   const [selectedFilterCategory, setSelectedFilterCategory] =
     useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(
@@ -201,9 +183,7 @@ const Products: React.FC = () => {
         formData.append("image", newImage);
         await PostProductImage(id, formData);
       } else if (selectedProduct?.image && !data.image) {
-        // نکته: این بخش نیاز به ID تصویر دارد که API شما باید آن را فراهم کند.
-        // در اینجا فرض می‌کنیم که API با ارسال id محصول، تصویر مرتبط را حذف می‌کند.
-        // await DeleteProductImageById(selectedProduct.id);
+        // ...
       }
 
       fetchAllData();
@@ -399,7 +379,7 @@ const Products: React.FC = () => {
                   </IonItem>
                   {selectedFilterCategory && (
                     <IonList>
-                      {displayedProducts.length > 0 ? (
+                      {displayedProducts && displayedProducts.length > 0 ? (
                         displayedProducts.map((product) => (
                           <IonItem key={product.id}>
                             {product.image?.url && (

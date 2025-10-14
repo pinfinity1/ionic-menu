@@ -20,24 +20,7 @@ import {
 import { GetCategory } from "../api/category";
 import { camera, trashOutline } from "ionicons/icons";
 import api from "../config/api";
-
-// اینترفیس‌ها با کلیدهای صحیح
-interface ProductImage {
-  id: string;
-  url: string;
-}
-interface ProductItem {
-  id: string;
-  name: string;
-  description: string; // تغییر از content
-  price: number;
-  categoryId: string; // تغییر از category_id
-  image?: ProductImage;
-}
-interface CategoryItem {
-  id: string;
-  name: string;
-}
+import { ProductItem, Category } from "../types";
 
 interface EditProductModalProps {
   isOpen: boolean;
@@ -57,7 +40,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   product,
   onSave,
 }) => {
-  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [productData, setProductData] = useState<Partial<ProductItem>>({});
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
@@ -169,8 +152,8 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
               <IonTextarea
                 label="Product Description"
                 labelPlacement="stacked"
-                value={productData.description} // استفاده از description
-                onIonInput={(e) => handleChange("description", e.target.value)} // استفاده از description
+                value={productData.description}
+                onIonInput={(e) => handleChange("description", e.target.value)}
               />
             </IonItem>
             <IonItem>

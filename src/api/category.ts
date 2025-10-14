@@ -1,11 +1,5 @@
 import api from "../config/api";
-
-export type Category = {
-  id: string;
-  name: string;
-  // Allow additional fields from backend without breaking typing where unused
-  [key: string]: unknown;
-};
+import { Category } from "../types";
 
 export type CategoryPayload = {
   name: string;
@@ -32,4 +26,4 @@ export const UpdateCategory = async (
 export const DeleteCategoryById = async (id: string): Promise<{ success?: boolean } | Category> => {
   const { data } = await api.delete<{ success?: boolean } | Category>(`category/${id}`);
   return data;
-}; 
+};
